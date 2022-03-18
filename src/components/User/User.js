@@ -5,18 +5,15 @@ import styles from './Users.module.css'
 
 function User({ user }) {
 
-    const [selected, setSelected] = useState(localStorage.getItem(user.id))
+    const [selected, setSelected] = useState(!!(JSON.stringify(localStorage.getItem(user.id))))
 
-    console.log(selected)
-    useEffect(() => {
-        localStorage.setItem(user.id, selected)
-    }, [])
+    // console.log(selected)
 
     const handleClick = () => {
-        SetLocalValue(user.id, !selected)
-        setSelected((prevState) => (!prevState))
+        localStorage.setItem(user.id, !selected)
+        setSelected(!selected)
     }
-
+    console.log(typeof selected)
     return (
         <div
             className={selected === true ?
@@ -29,6 +26,12 @@ function User({ user }) {
             <div className={styles.picOverlay}>
                 <img src={user.picture} alt="" />
             </div>
+            {localStorage && localStorage.getItem(user.id)}
+            {selected === true ?
+                <h1>T</h1>
+                :
+                <h1>F</h1>
+            }
             <h1 className='text-2xl font-bold'>{user.name}</h1>
             <h3 className='font-medium'>Company: <Tag text={user.company.name} /></h3>
             <p className='font-medium'>Email: {user.email}</p>
